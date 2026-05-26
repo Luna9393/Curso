@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables en HTML</title>
+    <style>
+        :root {
+            /*Colores*/
+            --color-fondo: #95baf1;
+            --color-tarjeta: #2ecc71;
+            
+            --color-principal: #ff5ed7;
+            --color-secundario: #fffc68;
+            
+            --color-texto: #000000;
+            --color: #dcdcdc;
+            
+            /*Espaciados*/
+            --padding: 20px;
+            --radio: 15px;
+            
+            /*Sombras*/
+            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+            
+            /*Fuentes*/
+            --fuente-titulo: 34px;
+            --fuente-texto: 16px;
+            --fuente-subtitulo: 24px;   
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        h1 {
+            text-align: center;
+            font-size: var(--fuente-titulo);
+            color: var(--color-principal);
+        }
+
+        p{
+            font-size: var(--fuente-texto);
+            text-align: center;
+        }
+        .contenedor {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--color-tarjeta);
+            padding: var(--padding);
+            width: 300px;
+            border-radius: var(--radio);
+            box-shadow: var(--sombra);
+            transition: 0.3s;
+        }
+        .card:hover {
+           transform: translate(-5px);
+        }
+
+        .card h2 {
+            font-size: var(--fuente-subtitulo);
+            color: var(--color-secundario);
+        }   
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: var(--radio);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: var(--color-principal);
+        }
+
+        .btn-secundary {
+            background: var(--color-secundario);
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .alert {
+            --color-alerta: #e74c3c;
+            margin-top: 40px;
+            background: var(--color-alerta);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radio);
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Variables</h1>
+    <p>Este ejemplo usa variables globales para controlar 
+        colores, tamaños, bordes, sombras y espaciados.
+    </p>
+
+    <div class="contenedor">
+        <div class="card">
+            <h2>Card 1</h2>
+            <p>Esta tarjeta utiliza variables globales para mantener un estilo consistente</p>
+            <button class="btn btn-primary">Aceptar</button>
+        </div>
+        
+        <div class="card">
+            <h2>Card 2</h2>
+            <p>Cambiando una variable podemos modificar múltiples elementos al mismo tiempo</p>
+            <button class="btn btn-secundary">Aceptar</button>
+        </div>
+    </div>
+    <div class="alert">
+        ¡Esto es una alerta usando una variable para el color!
+    </div>
+</body>
+</html>

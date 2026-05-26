@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de divs</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .item {
+            background-color: #eee;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <div class="item">Caja 1</div>
+        <div class="item">Caja 2</div>
+        <div class="item">Caja 3</div>
+        <div class="item">Caja 4</div>
+        <div class="item">Caja 5</div>
+        <div class="item">Caja 6</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso del div</title>
+
+    <style>
+        .caja {
+            /* Color de fondo del div con clase caja */
+            background-color: #c96464;
+            /* Borde sólido de 3 píxeles */
+            border: 3px solid #100d0d;
+            /* Espacio interno del contenido */
+            padding: 15px;
+            /* Separación inferior respecto a otros elementos */
+            margin-bottom: 10px;
+            }
+
+        .contenedor {
+            /* El contenedor ocupará el 50% del ancho disponible */
+            width: 50%;
+            /* Centra el contenedor horizontalmente */
+            margin: auto;
+            /* Define la fuente del texto */
+            font-family: Arial, sans-serif;
+            }
+
+
+        /*La coma entre las clases hace se le pueda darle el mismo estilo a todos los elementos*/
+        .encabezado, .contenido, .pie {
+            /* Espacio interno en las tres secciones */
+            padding: 20px;
+            /* Separación inferior entre secciones */
+            margin-bottom: 30px;
+            }
+
+        .encabezado {
+            /* Fondo azul claro para el encabezado */
+            background-color: #d9edf7;
+            }
+
+        .contenido {
+            /* Fondo gris claro para el contenido */
+            background-color: #f5f5f5;
+            }
+
+        .pie {
+            /* Fondo verde claro para el pie de página */
+            background-color: #dff0d8;
+            }
+
+        .principal {
+            /* Convierte el div principal en un contenedor flexible para que puedaa alinearse horizontalmente */
+            display: flex;
+            /* Espacio entre las cajas internas */
+            gap: 10px;
+        }
+
+        .caja2 {
+            /* Hace que cada caja ocupe el mismo espacio y entre los tres ocupen todo el espacio horizontal */
+            flex: 1;
+            /* Espacio interno de cada caja */
+            padding: 20px;
+            /* Color de fondo gris claro */
+            background-color: lightgray;
+            /* Centra el texto horizontalmente */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h3>Nike Air Max 2026</h3>
+        <p>El modelo mas esperado del año</p>
+    </article>
+
+    <div>
+        <!-- Contenedor genérico para agrupar contenido -->
+        <h3>Oferta del dia</h3>
+        <p>20% de descuento en toda la tienda</p>
+    </div>
+
+    <!-- Divs simples sin estilo ni clase -->
+    <div>Primer div</div>
+    <div>Segundo div</div>
+    <div>Tercer div</div>
+
+    <!-- Div con clase caja, por eso toma los estilos definidos en CSS -->
+    <div class="caja">
+        Este es un div con estilo.
+    </div>
+
+    <!-- Div con clase tarjeta -->
+    <div class="tarjeta">
+        contenido en una tarjeta
+    </div>
+
+    <!-- Div con identificador único -->
+    <div id="menuPrincipal">
+        Menu principal
+    </div>
+
+    <!-- Más divs con la clase caja -->
+    <div class="caja">
+        Caja 1
+    </div>
+
+    <div class="caja">
+        Caja 2
+    </div>
+
+    <div class="caja">
+        Caja 3
+    </div>
+
+    <!-- Div contenedor principal -->
+    <div class="contenedor">
+        <!-- Div que funciona como encabezado -->
+        <div class="encabezado">
+            <h1>Título</h1>
+        </div>
+
+        <!-- Div que contiene el contenido principal -->
+        <div class="contenido">
+            <p>Este es el contenido principal.</p>
+        </div>
+
+        <!-- Div para el pie de página -->
+        <div class="pie">
+            <p>Pie de página</p>
+        </div>
+    </div>
+
+    <!-- Div principal que organiza sus elementos en fila con flexbox -->
+    <div class="principal">
+        <div class="caja2">Caja 1</div>
+        <div class="caja2">Caja 2</div>
+        <div class="caja2">Caja 3</div>
+    </div>
+
+</body></html>

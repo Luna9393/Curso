@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pseudo-elementos</title>
+</head>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.5;
+    background-color: #f9f9f9;
+  }
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+  }
+
+  h1,h2 {
+    margin-top: 0;
+  }
+
+  .before-box::before {
+    content: "WASA 👻 ";
+    color: #0066cc;
+    font-weight: bold;
+  }
+
+  .after-box::after {
+    content: "Texto agregado con after";
+    color: #cc0000;
+    font-weight: bold;
+  }
+
+  input{
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  input::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+  .first-letter-text{
+    font-size: 18px;
+    max-width: 700px;
+    padding: 12px;
+    background: #f9f9f9;
+    border-left: 5px solid #00f53d;
+    border-radius: 8px;
+  }
+
+  .first-letter-text::first-letter {
+    font-size: 48px;
+    color: #f53100;
+    font-weight: bold;
+    float: ;
+  } 
+</style>
+<body>
+<section>
+  <h2>::before</h2>
+  <div class="before-box">Este texto tiene contenido antes gracias a ::before</div>
+   <div class="before-box">Este es otro elemento de before ::before</div>
+</section>
+
+<section>
+  <h2>::after</h2>
+  <div class="after-box">Este texto tiene contenido después gracias a ::after</div>
+   <div class="after-box">Otro ejemplo de ::after</div>
+</section>
+
+<section>
+  <h2>::placeholder</h2>
+  <input type="text" placeholder="Inserta tu nombre aquí">
+  <input type="text" placeholder="Inserta tu correo aquí">
+  <input type="text" placeholder="Inserta tu contraseña aquí">
+</section>
+<section>
+  <h2>::first-letter</h2>
+  <p class="first-letter-text2">EEE</p>
+</body>
+</html>

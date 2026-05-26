@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pseudo-clases</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.5;
+  }
+  section {
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+  }
+    h1,h2 {
+        margin-top: 0;
+    }
+  .hover-box {
+    background: #e6e6e6;
+    border: 2px solid #ccc;
+    padding: 12px 16px;
+    margin: 8px;
+    cursor: pointer;
+    display: inline-block;
+    transition: 0.3s;
+  }
+  .hover-box:hover {
+    background: #0066cc;
+    color: white;
+    border-color: #0066cc;
+    transform: scale(0.9);
+  }
+
+  .active-btn {
+    background: #ff9800;
+    border: none;
+    padding: 12px 16px;
+    margin: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+  }
+    .active-btn:active {
+        background: #cc0000;
+        transform: scale(0.95);
+    }
+    input {
+        display: block;
+        padding: 12px;
+        margin: 10px 0;
+        border: 2px solid #aaa;
+        border-radius: 8px;
+        outline: none;
+    }
+    input:focus {
+        border-color: #3d79b4;
+        background: #eef6ff;
+    }
+    ul li {
+        padding: 8px;
+        background: #f3f3f3;
+        margin: 4px ;
+        border-radius: 6px;
+    }
+    ul li:first-child {
+        background: #18acf7;
+        font-weight: bold;
+    }
+    ul li:last-child {
+        background: #6be03d;
+        font-weight: bold;
+    }
+    ul li:nth-child(3) {
+        background: #f71919;
+        font-weight: bold;
+    }
+    .odd-even-list li:nth-child(odd) {
+        background: #60d4a0;
+    }
+    .odd-even-list li:nth-child(even) {
+        background: #f9c74f;
+    }
+</style>
+<body> 
+    <section>
+        <h1>:hover</h1>
+        <div class="hover-box">Pasa el mouse aca</div>
+        <div class="hover-box">Pasa el mouse aca</div>
+        <div class="hover-box">Pasa el mouse aca</div>
+    </section>
+    <section>
+        <h1>:active</h1>
+        <button class="active-btn">Haz click aqui</button>
+        <button class="active-btn">Haz click aqui</button>
+        <button class="active-btn">Haz click aqui</button>
+    </section>
+    <section>
+        <h1>:focus</h1>
+        <input type="text" placeholder="Haz click aqui">
+        <input type="email" placeholder="Escribe tu email">
+        <input type="password" placeholder="Escribe tu contraseña">
+    </section>
+
+    <section>
+        <h2>:first-child, :last-child, :nth-child(n)</h2>
+        <ul> El elemento UL esta actuadno esta actuando como el elmeneto padre, y cada LI es un hijo de ese elemento padre. 
+             Con :first-child se selecciona el primer LI, con :last-child se selecciona el último LI, y con :nth-child(n) se puede seleccionar cualquier LI específico según su posición en la lista.
+            <li>Primer hijo</li>
+            <li>Segundo hijo</li>
+            <li>Tercer hijo</li>
+            <li>Cuarto hijo</li>
+            <li>Quinto hijo</li>
+            <li>Último hijo</li>
+        </ul>
+    </section>
+    <section>
+        <h2>:nth-child(odd) y :nth-child(even)</h2>
+        <ul class="odd-even-list">
+             Con :nth-child(odd) se seleccionan los elementos LI que están en posiciones impares (1, 3, 5, etc.), mientras que con :nth-child(even) se seleccionan los elementos LI que están en posiciones pares (2, 4, 6, etc.). Esto permite aplicar estilos diferentes a los elementos de la lista según su posición.
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+        </ul>
+    </section>
+</body>
+</html>

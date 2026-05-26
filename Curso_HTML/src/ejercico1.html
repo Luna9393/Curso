@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Atencion a clientes "Telcel"</h2>
+    
+    <form action="#">
+        <div class="Name">
+            <label>Nombre de usuario</label>
+            <input type="text" placeholder="Ej. MaTa4567" required>
+        </div>
+
+        <div class="Correo">
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="Ej. usuario@correo.com" required>
+        </div>
+
+        <div class="Numero">
+            <label>Celular</label>
+            <input type="number" placeholder="Ej. 961 126 3147" required>
+        </div>
+
+        <div class="Contraseña">
+            <label>Contraseña</label>
+            <input type="password" placeholder="Mínimo 8 caracteres" minlength="8">
+        </div>
+
+        <div class="Asunto">
+            <label>Asunto</label>
+            <select required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="soporte">Soporte Técnico</option>
+                <option value="ventas">Ventas</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
+
+        <div class="Comentarios">
+            <label>Comentario</label>
+            <textarea placeholder="Escribe tu comentario aquí..."></textarea>
+        </div>
+
+        <div class="radio-group">
+            <label>¿Donde prefiere que lo llamen?</label>
+            <label class="radio-option"><input type="radio" name="contacto" value="correo"> Correo</label>
+            <label class="radio-option"><input type="radio" name="contacto" value="telefono"> Teléfono</label>
+            <label class="radio-option"><input type="radio" name="contacto" value="whatsapp"> WhatsApp</label>
+        </div>
+
+        <div class="checkbox">
+            <label class="radio-option">
+                <input type="checkbox" required> Acepto los términos y condiciones
+            </label>
+        </div>
+
+        <button type="submit" class="submit">Enviar mensaje</button>
+    </form>
+</div>
+
+</body>
+</html>

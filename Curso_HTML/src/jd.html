@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<header id="encabezado">
+    <h1>Este estilo cambiara</h1>
+</header>
+    <button id="botoncolor">Haz clic aquí</button>
+<p class="parrafo">Hola</p>
+    <div id="caja"> 
+        Este texto esta dentro de la etqueta div.
+    </div>
+
+    <div id="caja2"> 
+        Este es la segunda caja.
+    </div>
+
+    <button id="boton">Haz clic aquí</button>
+
+    <script>
+        const parrafo = document.getElementById("parrafo");
+        //const texto = document.querySelector(".parrafo").textContent;
+        //const texto = document.querySelector("p").textContent;
+        //parrafo.innerHTML = "<strong>Texto en negritax</strong>";
+       const caja = document.getElementById("caja");
+       const caja2 = document.getElementById("caja2");
+       const botoncolor = document.getElementById("botoncolor");
+       const boton = document.getElementById("boton");
+       const encabezado = document.getElementById("encabezado");
+    let activo = false;//variableque guarda el estado
+      
+       parrafo.style.color = "brown";
+        parrafo.style.fontSize = "24px";
+        
+        caja.style.backgroundColor = "lightblue";
+        caja.style.color = "white";
+        caja.style.fontSize = "20px";
+
+        caja2.style.display = "none";
+        caja2.style.display = "block";
+
+        boton.addEventListener("click", function() {
+            console.log("¡Haz hecho clic en el botón!");
+        });//esto es un evento, el evento es el click, y la función es lo que se ejecuta cuando se hace click en el botón.
+
+
+        //botoncolor.addEventListener("click", function() {
+          //  encabezado.style.backgroundColor = "yellow";
+        //});
+
+        botoncolor.addEventListener("click", function() {
+            if (activo==false) {
+                encabezado.style.backgroundColor = "yellow";
+                botoncolor.textContent = "Haz clic para quitar el color";
+                activo = true;
+            } else {
+                encabezado.style.backgroundColor = "";
+                botoncolor.textContent = "Cambiar el color";
+                activo = false;
+            }
+        });
+        </script>
+    
+</body>
+</html>

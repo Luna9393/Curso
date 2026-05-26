@@ -1,0 +1,101 @@
+ :root {
+      --color-principal: #47708b;
+      --color-secundario: #5cb681;
+      --color-hover: #a8584f;
+      --fondo: #e1f0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--fondo);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(90deg, var(--color-principal), var(--color-secundario));
+      background-size: 200% 200%;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      animation: bajar 2s ease forwards, gradient 6s ease infinite;
+    }
+
+    nav {
+      background: var(--color-secundario);
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.5s ease, border-bottom-color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--color-hover);
+      border-bottom-color: var(--color-hover);
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    section {
+      flex: 3;
+      opacity: 0;
+      animation: aparecer 2s ease forwards;
+    }
+
+    aside {
+      flex: 1;
+      margin-left: 20px;
+      opacity: 0;
+      animation: aparecer 3s ease forwards;
+    }
+
+    article, .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    article:hover, .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    footer {
+      background: var(--color-principal);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+      opacity: 0;
+      animation: aparecer 3s ease forwards;
+    }
+
+    /* ANIMACIONES */
+    @keyframes aparecer {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes bajar {
+      from { transform: translateY(-100px); }
+      to   { transform: translateY(0); }
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
