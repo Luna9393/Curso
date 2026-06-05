@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Registro</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      width: 320px;
+      animation: fadeIn 1s ease;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 2px solid #000000;
+      border-radius: 6px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37,117,252,0.4);
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 12px;
+      height: 14px;
+      margin-top: 2px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+    }
+
+    #exito {
+      text-align: center;
+      color: #27ae60;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 15px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <form id="registroForm">
+    <h2>Registro</h2>
+
+    <label>Nombre:</label>
+    <input type="text" id="nombre">
+    <span class="error"></span>
+
+    <label>Correo:</label>
+    <input type="email" id="correo">
+    <span class="error"></span>
+
+    <label>Contraseña:</label>
+    <input type="password" id="password">
+    <span class="error"></span>
+
+    <label>Confirmar Contraseña:</label>
+    <input type="password" id="confirmarPassword">
+    <span class="error"></span>
+
+    <button type="submit">Enviar</button>
+    <p id="exito"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('registroForm');
+    const nombre = document.getElementById('nombre');
+    const correo = document.getElementById('correo');
+    const password = document.getElementById('password');
+    const confirmarPassword = document.getElementById('confirmarPassword');
+    const exito = document.getElementById('exito');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valido = true;
+
+      if (nombre.value.trim().length < 3) {
+        mostrarError(nombre, "El nombre debe tener al menos 3 caracteres");
+        valido = false;
+      } else limpiarError(nombre);
+
+      if (!correo.value.includes('@') || !correo.value.includes('.')) {
+        mostrarError(correo, "El correo debe contener '@' y '.'");
+        valido = false;
+      } else limpiarError(correo);
+
+      if (password.value.length < 6) {
+        mostrarError(password, "La contraseña debe tener al menos 6 caracteres");
+        valido = false;
+      } else limpiarError(password);
+
+      if (confirmarPassword.value !== password.value || confirmarPassword.value === "") {
+        mostrarError(confirmarPassword, "Las contraseñas no coinciden");
+        valido = false;
+      } else limpiarError(confirmarPassword);
+
+      if (valido) {
+        exito.textContent = "Registro exitoso 🎉";
+        form.reset();
+        document.querySelectorAll('.error').forEach(err => err.textContent = '');
+        document.querySelectorAll('input').forEach(inp => inp.style.borderColor = '#ccc');
+      } else {
+        exito.textContent = "";
+      }
+    });
+
+    function mostrarError(input, mensaje) {
+      const error = input.nextElementSibling;
+      error.textContent = mensaje;
+      input.style.borderColor = '#e74c3c';
+    }
+
+    function limpiarError(input) {
+      const error = input.nextElementSibling;
+      error.textContent = '';
+      input.style.borderColor = '#27ae60';
+    }
+
+    [nombre, correo, password, confirmarPassword].forEach(input => {
+      input.addEventListener('keyup', () => {
+        form.dispatchEvent(new Event('submit', {cancelable:true}));
+      });
+    });
+  </script>
+</body>
+</html>

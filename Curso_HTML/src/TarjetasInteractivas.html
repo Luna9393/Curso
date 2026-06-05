@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Molletes Favoritos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .contador {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    article {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    article img {
+      width: 35%;
+      height: 150px;
+      background: lightblue;
+      border-radius: 8px;
+      margin: 15px 0; /* 👈 margen arriba y abajo */
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15); /* sombra extra para estilo */
+    }
+
+    article h3 {
+      margin: 10px 0 5px;
+    }
+
+    article p {
+      margin: 5px 0 10px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-fav {
+      background: #ddd;
+    }
+
+    .btn-fav.activo {
+      background: #ff4d4d;
+      color: white;
+    }
+
+    .favorita {
+      border: 2px solid #ff4d4d;
+      background: #ffe6e6;
+      transform: scale(1.03);
+    }
+
+    #limpiar {
+      margin-top: 20px;
+      background: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Molletes más sabrosos ñam ñam</h1>
+    <div class="contador">Favoritos: <span id="contador">0</span></div>
+  </header>
+
+  <main>
+    <article>
+      <img src="Molletes_con_chorizo.jpg" alt="Molletes con chorizo">
+      <h3>Mollete con chorizo</h3>
+      <p>$100</p>
+      <button class="btn-fav">😋 Favorito</button>
+    </article>
+
+    <article>
+      <img src="Molletes_con_guiso.jpg" alt="Molletes con guiso">
+      <h3>Mollete con guiso</h3>
+      <p>$200</p>
+      <button class="btn-fav">😋 Favorito</button>
+    </article>
+
+    <article>
+      <img src="Molletes_de_pollo.jpg" alt="Molletes de pollo">
+      <h3>Mollete de pollo</h3>
+      <p>$150</p>
+      <button class="btn-fav">😋 Favorito</button>
+    </article>
+
+    <article>
+      <img src="Molletes_con_jamon.jpg" alt="Molletes con jamón">
+      <h3>Mollete con jamón</h3>
+      <p>$199</p>
+      <button class="btn-fav">😋 Favorito</button>
+    </article>
+  </main>
+
+  <button id="limpiar">Limpiar Favoritos</button>
+
+  <script>
+    const botonesFav = document.querySelectorAll(".btn-fav");
+    const contador = document.getElementById("contador");
+    const limpiarBtn = document.getElementById("limpiar");
+
+    let favoritos = 0;
+
+    botonesFav.forEach(boton => {
+      boton.addEventListener("click", () => {
+        const tarjeta = boton.parentElement;
+
+        if (tarjeta.classList.contains("favorita")) {
+          tarjeta.classList.remove("favorita");
+          boton.classList.remove("activo");
+          favoritos--;
+        } else {
+          tarjeta.classList.add("favorita");
+          boton.classList.add("activo");
+          favoritos++;
+        }
+
+        contador.textContent = favoritos;
+      });
+    });
+
+    limpiarBtn.addEventListener("click", () => {
+      botonesFav.forEach(boton => {
+        boton.parentElement.classList.remove("favorita");
+        boton.classList.remove("activo");
+      });
+      favoritos = 0;
+      contador.textContent = favoritos;
+    });
+  </script>
+</body>
+</html>

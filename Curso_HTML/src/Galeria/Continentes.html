@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galería de Continentes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 50vh;
+      background: url('img/collage.jpg') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero h1, .hero p {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Galería */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
+    .card {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+    }
+    .card-text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+      padding: 10px;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: white;
+    }
+    .social i {
+      margin: 0 10px;
+    }
+
+    /* Modal */
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    #modal:not(.oculto) {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      position: relative;
+      max-width: 80%;
+    }
+    #cerrar {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 24px;
+    }
+    #imagen-grande {
+  width: 100%;
+  height: 400px;        
+  object-fit: cover;   
+  display: block;
+  margin: 0 auto;
+}
+
+    #prev, #next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+    }
+    #prev { left: -50px; }
+    #next { right: -50px; }
+
+    .miniaturas {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .thumbs {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+    }
+    .thumbs img {
+      width: 60px;
+      opacity: 0.6;
+      cursor: pointer;
+    }
+    .thumbs img.activa {
+      opacity: 1;
+      filter: brightness(1.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <header class="hero">
+    <h1>Galería de Continentes</h1>
+    <p>Autor: Ivan Luna</p>
+  </header>
+
+  <!-- Galería -->
+  <main class="galeria">
+    <article class="card" data-continente="África" style="background-image:url('img/Africa.jpg')">
+      <div class="card-text"><h2>África</h2><p>2 fotos</p></div>
+    </article>
+
+    <article class="card" data-continente="Asia" style="background-image:url('img/Asia.jpg')">
+      <div class="card-text"><h2>Asia</h2><p>2 fotos</p></div>
+    </article>
+
+    <article class="card" data-continente="Europa" style="background-image:url('img/Europa.jpg')">
+      <div class="card-text"><h2>Europa</h2><p>2 fotos</p></div>
+    </article>
+
+    <article class="card" data-continente="América" style="background-image:url('img/America.jpg')">
+      <div class="card-text"><h2>América</h2><p>2 fotos</p></div>
+    </article>
+
+    <article class="card" data-continente="Oceanía" style="background-image:url('img/Oceania.jpg')">
+      <div class="card-text"><h2>Oceanía</h2><p>2 fotos</p></div>
+    </article>
+
+    <article class="card" data-continente="Antártida" style="background-image:url('img/Antartida.jpg')">
+      <div class="card-text"><h2>Antártida</h2><p>2 fotos</p></div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© Ivan Luna</p>
+    <div class="social">
+      <i class="fab fa-facebook"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-instagram"></i>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" class="oculto">
+    <div class="modal-content">
+      <span id="cerrar">&times;</span>
+      <h2 id="titulo-foto"></h2>
+      <img id="imagen-grande" src="" alt="">
+      <p id="descripcion"></p>
+      <button id="prev">&lt;</button>
+      <button id="next">&gt;</button>
+      <div class="miniaturas">
+        <button id="scroll-left">&lt;</button>
+        <div class="thumbs"></div>
+        <button id="scroll-right">&gt;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("modal");
+    const cerrar = document.getElementById("cerrar");
+    const imagenGrande = document.getElementById("imagen-grande");
+    const tituloFoto = document.getElementById("titulo-foto");
+    const descripcion = document.getElementById("descripcion");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const thumbsContainer = document.querySelector(".thumbs");
+
+    let fotos = [];
+    let indice = 0;
+
+    const data = {
+      "África": [
+        {src:"img/safari.jpg", titulo:"Safari", desc:"Elefantes en la sabana"},
+        {src:"img/desierto.jpg", titulo:"Desierto", desc:"Dunas doradas"}
+      ],
+      "Asia": [
+        {src:"img/templo.jpg", titulo:"Templo", desc:"Arquitectura milenaria"},
+        {src:"img/Ciudad.jpg", titulo:"Ciudad", desc:"Luces nocturnas"}
+      ],
+      "Europa": [
+        {src:"img/castillo.jpg", titulo:"Castillo", desc:"Paisaje medieval"},
+        {src:"img/plaza.jpg", titulo:"Plaza", desc:"Centro histórico"}
+      ],
+      "América": [
+        {src:"img/montaña.jpg", titulo:"Montañas", desc:"Cordillera imponente"},
+        {src:"img/rascacielos.jpg", titulo:"Ciudad", desc:"Rascacielos modernos"}
+      ],
+      "Oceanía": [
+        {src:"img/playas.jpg", titulo:"Playa", desc:"Arena blanca y mar turquesa"},
+        {src:"img/selva.jpg", titulo:"Selva", desc:"Vegetación exuberante"}
+      ],
+      "Antártida": [
+        {src:"img/glaciares.jpg", titulo:"Glaciar", desc:"Hielo eterno"},
+        {src:"img/pinguino.jpg", titulo:"Pingüinos", desc:"Colonia en la costa"}
+      ]
+    };
+
+    // Abrir modal
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("click", () => {
+        const continente = card.dataset.continente;
+        fotos = data[continente] || [];
+        indice = 0;
+        cargarFoto();
+        modal.classList.remove("oculto");
+      });
+    });
+
+    // Cerrar modal
+    cerrar.addEventListener("click", () => modal.classList.add("oculto"));
+    modal.addEventListener("click", e => {
+      if(e.target === modal) modal.classList.add("oculto");
+    });
+        // Cerrar modal con teclado y navegación
+    document.addEventListener("keydown", e => {
+      if(e.key === "Escape") modal.classList.add("oculto");
+      if(e.key === "ArrowLeft") cambiarFoto(-1);
+      if(e.key === "ArrowRight") cambiarFoto(1);
+    });
+
+    // Navegación con botones
+    prev.addEventListener("click", () => cambiarFoto(-1));
+    next.addEventListener("click", () => cambiarFoto(1));
+
+    function cargarFoto(){
+      const foto = fotos[indice];
+      imagenGrande.src = foto.src;
+      tituloFoto.textContent = foto.titulo;
+      descripcion.textContent = foto.desc;
+      cargarMiniaturas();
+    }
+
+    function cambiarFoto(dir){
+      indice = (indice + dir + fotos.length) % fotos.length;
+      cargarFoto();
+    }
+
+    function cargarMiniaturas(){
+      thumbsContainer.innerHTML = "";
+      fotos.forEach((f,i) => {
+        const img = document.createElement("img");
+        img.src = f.src;
+        if(i === indice) img.classList.add("activa");
+        img.addEventListener("click", () => {
+          indice = i;
+          cargarFoto();
+        });
+        thumbsContainer.appendChild(img);
+      });
+    }
+
+    // Scroll de miniaturas
+    const scrollLeft = document.getElementById("scroll-left");
+    const scrollRight = document.getElementById("scroll-right");
+
+    scrollLeft.addEventListener("click", () => {
+      thumbsContainer.scrollBy({left: -100, behavior: "smooth"});
+    });
+    scrollRight.addEventListener("click", () => {
+      thumbsContainer.scrollBy({left: 100, behavior: "smooth"});
+    });
+  </script>
+</body>
+</html>
+

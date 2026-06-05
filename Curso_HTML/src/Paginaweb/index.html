@@ -3,70 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TecnoMovil - Tu Tienda de Celulares</title>
-  |<link rel="stylesheet" href="style.css">
+  <title>TecnoMovil | Dashboard de Compra</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <h1>TecnoMovil</h1>
-    <p>La mejor tecnología en la palma de tu mano.</p>
+    <nav class="navbar">
+      <div class="logo">📱 TecnoMovil</div>
+      <ul class="nav-links">
+        <li><a href="#menu-productos">Catálogo</a></li>
+        <li><a href="#promociones">Promociones</a></li>
+        <li><a href="#marcas">Marcas</a></li>
+      </ul>
+      <div class="cart-container">
+        <button id="btn-cart" class="btn-cart">
+          🛒 Carrito (<span id="cart-count">0</span>)
+        </button>
+      </div>
+    </nav>
   </header>
 
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Catálogo</a>
-    <a href="#">Marcas</a>
-    <a href="#">Soporte</a>
-  </nav>
+  <div id="cart-modal" class="modal hidden">
+    <div class="modal-content cart-content">
+      <h2>Tu Carrito</h2>
+      <div id="cart-items"></div>
+      <div class="cart-total">Total: $<span id="total-price">0.00</span></div>
+      <button id="btn-checkout" class="btn-main" disabled>Proceder al pago</button>
+      <button id="btn-close-cart" class="btn-secondary">Cerrar</button>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="modal hidden">
+    <div class="modal-content checkout-content">
+      <div class="progress-bar">
+        <div class="step active" data-step="1">1. Resumen</div>
+        <div class="step" data-step="2">2. Datos</div>
+        <div class="step" data-step="3">3. Pago</div>
+        <div class="step" data-step="4">4. Confirmación</div>
+      </div>
+
+      <section id="step-1" class="checkout-step active">
+        <h3>Resumen de tu compra</h3>
+        <div id="checkout-summary"></div>
+        
+        <div class="coupon-container" style="margin: 15px 0; padding: 12px; background: #f9f9f9; border-radius: 6px; border: 1px dashed #ccc;">
+          <label for="coupon-input" style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">¿Tienes un código de descuento?</label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="coupon-input" placeholder="Ej. IPHONE20" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-transform: uppercase;">
+            <button type="button" class="btn-main" onclick="aplicarCupon()" style="padding: 8px 15px;">Aplicar</button>
+          </div>
+          <div id="coupon-message" class="error-msg" style="margin-top: 5px; font-size: 0.85rem;"></div>
+        </div>
+
+        <h4 style="margin: 5px 0;">Total inicial: $<span id="checkout-subtotal">0.00</span></h4>
+        <h4 style="color: #dbf0e4; margin: 5px 0;">Descuento: -$<span id="checkout-discount">0.00</span></h4>
+        <h3 style="margin: 10px 0 20px 0;">Total a pagar: $<span id="checkout-total">0.00</span></h3>
+        
+        <div class="step-buttons">
+          <button class="btn-secondary btn-cancel-checkout">Cancelar</button>
+          <button class="btn-main" onclick="siguientePaso(1)">Siguiente</button>
+        </div>
+      </section>
+
+      <section id="step-2" class="checkout-step hidden">
+        <h3>Datos de Envío</h3>
+        <form id="form-datos">
+          <label for="nombre">Nombre Completo:</label>
+          <input type="text" id="nombre" required minlength="3">
+          
+          <label for="email">Correo Electrónico:</label>
+          <input type="email" id="email" required>
+          
+          <label for="direccion">Dirección de Envío:</label>
+          <textarea id="direccion" required></textarea>
+        </form>
+        <div class="error-msg" id="error-step-2" style="color: red; font-size: 0.9rem; margin-top: 5px;"></div>
+        <div class="step-buttons">
+          <button class="btn-secondary" onclick="pasoAnterior(2)">Atrás</button>
+          <button class="btn-main" onclick="siguientePaso(2)">Siguiente</button>
+        </div>
+      </section>
+
+      <section id="step-3" class="checkout-step hidden">
+        <h3>Método de Pago</h3>
+        <form id="form-pago">
+          <div class="radio-group" style="margin-bottom: 10px;">
+            <input type="radio" id="tarjeta" name="metodo_pago" value="Tarjeta" checked>
+            <label for="tarjeta" style="display:inline; margin-left:5px; font-weight:normal;">Tarjeta de Crédito</label>
+          </div>
+          <div class="radio-group" style="margin-bottom: 15px;">
+            <input type="radio" id="cheques" name="metodo_pago" value="Cuenta de Cheques">
+            <label for="cheques" style="display:inline; margin-left:5px; font-weight:normal;">Cuenta de Cheques</label>
+          </div>
+
+          <div id="campos-tarjeta" class="campos-tarjeta">
+            <label for="num-tarjeta">Número de Tarjeta:</label>
+            <input type="text" id="num-tarjeta" maxlength="16">
+            
+            <label for="fecha-vencimiento">Fecha de Vencimiento:</label>
+            <input type="text" id="fecha-vencimiento" placeholder="MM/AA">
+            
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" maxlength="3">
+          </div>
+        </form>
+        <div class="error-msg" id="error-step-3" style="color: red; font-size: 0.9rem; margin-top: 5px;"></div>
+        <div class="step-buttons">
+          <button class="btn-secondary" onclick="pasoAnterior(3)">Atrás</button>
+          <button class="btn-main" onclick="siguientePaso(3)">Revisar Pedido</button>
+        </div>
+      </section>
+
+      <section id="step-4" class="checkout-step hidden">
+        <h3>Confirmación Final</h3>
+        <div id="final-review" class="final-review"></div>
+        <div class="step-buttons">
+          <button class="btn-secondary" onclick="pasoAnterior(4)">Atrás</button>
+          <button class="btn-main" onclick="confirmarCompra()">Confirmar compra</button>
+        </div>
+      </section>
+    </div>
+  </div>
 
   <main>
-    <section>
-      <h2>Equipos Destacados</h2>
-
-      <article>
-        <h3>iPhone 15 Pro — Potencia Titánica</h3>
-        <p>El primer iPhone con diseño de titanio de calidad aeroespacial. Chip A17 Pro y un sistema de cámaras más avanzado que nunca.</p>
-      </article>
-
-      <article>
-        <h3>Samsung Galaxy S24 Ultra — IA integrada</h3>
-        <p>Descubre el futuro con Galaxy AI. Pantalla plana de 6.8 pulgadas y S Pen integrado para maximizar tu productividad.</p>
-      </article>
-
-      <article>
-        <h3>Xiaomi 14 Ultra — Fotografía Legendaria</h3>
-        <p>Equipado con lentes ópticos Leica Summilux para capturar detalles increíbles incluso en condiciones de poca luz.</p>
-      </article>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>LA TECNOLOGÍA QUE TE ACOMPAÑA</h1>
+        <p>Los mejores celulares al mejor precio.</p>
+        <a href="#menu-productos" class="btn-main">Ver nuestro Catálogo</a>
+      </div>
+      <div class="img">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80" alt="Celular moderno">
+      </div>
     </section>
 
-    <aside>
-      <div class="card">
-        <h3>Lo más vendido</h3>
-        <ol>
-          <li>Google Pixel 8</li>
-          <li>Motorola Edge 50</li>
-          <li>Huawei Pura 70</li>
-          <li>Nokia 1100</li>
-        </ol>
-      </div>
+    <section id="menu-productos" class="categories">
+      <h2>NUESTRO CATÁLOGO</h2>
+      <div class="category-grid" id="product-grid"></div>
+    </section>
 
-      <div class="card">
-        <h3>Marcas populares</h3>
-        <ul>
-          <li>Apple</li>
-          <li>Samsung</li>
-          <li>Xiaomi</li>
-          <li>Motorola</li>
-          <li>Oppo</li>
-        </ul>
+    <section id="promociones" class="promo-section">
+      <h2>PROMOCIONES EXCLUSIVAS</h2>
+      <p class="section-subtitle">Aprovecha los descuentos del mes con envío gratis</p>
+      
+      <div class="promo-grid">
+        <div class="promo-card">
+          <div class="badge">20% OFF</div>
+          <h3>Especial Apple</h3>
+          <p>Llévate cualquier iPhone con un 20% de descuento directo aplicando tu código de descuento en el resumen.</p>
+          <span class="promo-code">Código: <strong>IPHONE20</strong></span>
+        </div>
+
+        <div class="promo-card premium">
+          <div class="badge">Envío Gratis</div>
+          <h3>Renovación Android</h3>
+          <p>En la compra de tu Galaxy S24 Ultra o Xiaomi 14 Ultra, el envío express a todo el país va por nuestra cuenta.</p>
+          <span class="promo-code">Aplicación automática</span>
+        </div>
+
+        <div class="promo-card">
+          <div class="badge">Bono $1,500</div>
+          <h3>Gama Media Pro</h3>
+          <p>Recibe un descuentazo de $1,500 MXN directo en tu cuenta al adquirir modelos Motorola usando tu cupón.</p>
+          <span class="promo-code">Código: <strong>MOTOBOOM</strong></span>
+        </div>
       </div>
-    </aside>
+    </section>
+
+    <section id="marcas" class="brands-section">
+      <h2>NUESTRAS MARCAS</h2>
+      <p class="section-subtitle">Trabajamos directamente con los mejores fabricantes globales</p>
+      
+      <div class="brands-display">
+        <div class="brand-item">
+          <span class="brand-logo">🍏</span>
+          <span>Apple</span>
+        </div>
+        <div class="brand-item">
+          <span class="brand-logo">🔹</span>
+          <span>Samsung</span>
+        </div>
+        <div class="brand-item">
+          <span class="brand-logo">🍊</span>
+          <span>Xiaomi</span>
+        </div>
+        <div class="brand-item">
+          <span class="brand-logo">🔴</span>
+          <span>Google</span>
+        </div>
+        <div class="brand-item">
+          <span class="brand-logo">🦇</span>
+          <span>Motorola</span>
+        </div>
+        <div class="brand-item">
+          <span class="brand-logo">🔴</span>
+          <span>Huawei</span>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 TecnoMovil Chiapas.</p>
+    <p>&copy; 2026 TecnoMovil | La mejor tecnología en tu mano</p>
+    <div class="social-links">
+      <a href="#">Facebook</a> | <a href="#">Instagram</a>
+    </div>
   </footer>
 
+  <script src="app.js"></script>
 </body>
 </html>
