@@ -3,36 +3,42 @@ const productos = [
         id: 1, 
         nombre: 'iPhone 15 Pro', 
         precio: 25000.00, 
+        descripcion: 'Pantalla Super Retina XDR de 6.1" con ProMotion. Chip A17 Pro con arquitectura de Titanio aeroespacial. Sistema de cámaras Pro con lente principal de 48 MP.',
         imagen: 'https://content.macstore.mx/img/sku/IPHONE670_FZ.jpg' 
     },
     { 
         id: 2, 
         nombre: 'Samsung Galaxy S24 Ultra', 
         precio: 22000.00, 
+        descripcion: 'Pantalla QHD+ Dynamic AMOLED 2X de 6.8". Procesador Snapdragon 8 Gen 3. Cámara premium de 200 MP impulsada por Galaxy AI y S Pen integrado.',
         imagen: 'https://i5.walmartimages.com/asr/eef98c4f-179f-4cd9-80c6-1e2640239a8b.d437e17aac70d095f9d56c3d3bdfc469.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF' 
     },
     { 
         id: 3, 
         nombre: 'Xiaomi 14 Ultra', 
         precio: 18000.00, 
+        descripcion: 'Óptica profesional Leica Summilux con sensor de 1 pulgada. Pantalla AMOLED WQHD+ a 120Hz. Carga ultra rápida HyperCharge de 90W.',
         imagen: 'https://resources.claroshop.com/medios-plazavip/t1/1713063042White01jpg' 
     },
     { 
         id: 4, 
         nombre: 'Google Pixel 8', 
         precio: 15000.00, 
+        descripcion: 'Impulsado por el chip Google Tensor G3 con Inteligencia Artificial avanzada. Sistema de cámaras avanzado con Borrador Mágico y Mejor Versión.',
         imagen: 'https://i5.walmartimages.com/asr/b8352d18-7ae7-456b-9448-b0ef0ee0ef85.6a9a52c4cb5d728eb44c4e760c239a09.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF' 
     },
     { 
         id: 5, 
         nombre: 'Motorola Edge 50', 
         precio: 12000.00, 
+        descripcion: 'Pantalla pOLED curva de 6.7" a 144Hz. Cámara de 50 MP con optimización Moto AI, acabado premium de cuero vegano y resistencia al agua IP68.',
         imagen: 'https://cell-shop.com.mx/wp-content/uploads/2024/08/169017-800-auto.png' 
     },
     { 
         id: 6, 
         nombre: 'Huawei Pura 70', 
         precio: 17000.00, 
+        descripcion: 'Cámara retráctil de ultra iluminación con sensor avanzado. Cristal Kunlun Glass de ultra resistencia y pantalla LTPO OLED fluida.',
         imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVm5vUItqEI9CdXHadxdQBl6Tw96j4Ng-jWQ&s' 
     }
 ];
@@ -48,12 +54,13 @@ const productGrid = document.getElementById('product-grid');
 const cartCount = document.getElementById('cart-count');
 const cartModal = document.getElementById('cart-modal');
 const checkoutModal = document.getElementById('checkout-modal');
+const productDetailModal = document.getElementById('product-detail-modal'); 
 const cartItemsContainer = document.getElementById('cart-items');
 const totalPriceEl = document.getElementById('total-price');
 const btnCheckout = document.getElementById('btn-checkout');
 
 // ==========================================================================
-// 2. Renderizar Productos utilizando Atributos data-* obligatorios
+//  Renderizar Productos utilizando Atributos data-
 // ==========================================================================
 function renderizarProductos() {
     if (!productGrid) return;
@@ -63,43 +70,54 @@ function renderizarProductos() {
         const article = document.createElement('article');
         article.className = 'category-card';
         article.innerHTML = `
-            <img src="${prod.imagen}" alt="${prod.nombre}">
-            <h3>${prod.nombre}</h3>
+            <img src="${prod.imagen}" alt="${prod.nombre}" class="view-detail" data-id="${prod.id}" style="cursor: pointer;">
+            <h3 class="view-detail" data-id="${prod.id}" style="cursor: pointer;">${prod.nombre}</h3>
             <p class="price">$${prod.precio.toFixed(2)}</p>
             <button class="btn-main btn-add-cart" data-id="${prod.id}">Agregar al carrito</button>
         `;
         productGrid.appendChild(article);
     });
 
+    // Delegación para capturar clics en imagen o título y abrir la vista de detalle
+    document.querySelectorAll('.view-detail').forEach(element => {
+        element.addEventListener('click', (e) => {
+            const id = parseInt(e.target.dataset.id);
+            abrirDetalleProducto(id);
+        });
+    });
+
     // Delegación y lectura correcta del atributo data-id mediante dataset
     document.querySelectorAll('.btn-add-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const id = parseInt(e.target.dataset.id);
-            agregarAlCarrito(id, e.target);
+            agregarAlCarrito(id, e.target, 1);
         });
     });
 }
 
 // ==========================================================================
-// 3. Funciones del Carrito (Cálculos dinámicos)
+// Funciones del Carrito (Cálculos dinámicos)
 // ==========================================================================
-function agregarAlCarrito(id, botonEl) {
+function agregarAlCarrito(id, botonEl, cantidad = 1) {
     const producto = productos.find(p => p.id === id);
     const existe = carrito.find(p => p.id === id);
 
     if (existe) {
-        existe.cantidad++;
+        existe.cantidad += cantidad;
     } else {
-        carrito.push({ ...producto, cantidad: 1 });
+        carrito.push({ ...producto, cantidad: cantidad });
     }
 
-    // Cambio visual obligatorio solicitado por el profesor
-    botonEl.textContent = '¡Agregado! ✓';
-    botonEl.style.backgroundColor = '#2ecc71'; 
-    setTimeout(() => {
-        botonEl.textContent = 'Agregar al carrito';
-        botonEl.style.backgroundColor = ''; 
-    }, 1000);
+    if (botonEl) {
+        const textoOriginal = botonEl.textContent;
+        botonEl.textContent = '¡Agregado! ✓';
+        const colorOriginal = botonEl.style.backgroundColor;
+        botonEl.style.backgroundColor = '#2ecc71'; 
+        setTimeout(() => {
+            botonEl.textContent = textoOriginal;
+            botonEl.style.backgroundColor = colorOriginal; 
+        }, 1000);
+    }
 
     actualizarCarrito();
 }
@@ -142,7 +160,64 @@ function actualizarCarrito() {
 }
 
 // ==========================================================================
-// 4. Control de Modales y Flujo de Checkout
+// NUEVO: Funciones Motor para la Vista de Detalle de Producto
+// ==========================================================================
+function abrirDetalleProducto(id) {
+    const prod = productos.find(p => p.id === id);
+    if (!prod) return;
+
+    // Inyectar la información dinámica seleccionada al DOM del modal
+    document.getElementById('detail-main-img').src = prod.imagen;
+    document.getElementById('detail-main-img').alt = prod.nombre;
+    document.getElementById('detail-name').textContent = prod.nombre;
+    document.getElementById('detail-price').textContent = `$${prod.precio.toFixed(2)}`;
+    document.getElementById('detail-description').textContent = prod.descripcion;
+    document.getElementById('detail-qty').value = 1; // Inicializar cantidad en 1 siempre
+
+    // Asignar el evento dinámico al botón de "Agregar al carrito" dentro del detalle
+    const btnAddDetail = document.getElementById('btn-detail-add-cart');
+    btnAddDetail.onclick = (e) => {
+        const cant = parseInt(document.getElementById('detail-qty').value);
+        agregarAlCarrito(prod.id, e.target, cant);
+        productDetailModal.classList.add('hidden'); // Cerrar modal al añadir
+    };
+
+    // Asignar el evento dinámico al botón "Comprar ahora" (Agrega al carrito e inicia Checkout)
+    const btnBuyNow = document.getElementById('btn-detail-buy-now');
+    btnBuyNow.onclick = () => {
+        const cant = parseInt(document.getElementById('detail-qty').value);
+        agregarAlCarrito(prod.id, null, cant);
+        productDetailModal.classList.add('hidden');
+        btnCheckout.click(); // Disparar automáticamente la apertura del Checkout
+    };
+
+    productDetailModal.classList.remove('hidden');
+}
+
+// Control del contador de cantidad del detalle (+ / -)
+window.cambiarQtySimulada = function(valor) {
+    const inputQty = document.getElementById('detail-qty');
+    let nuevaCant = parseInt(inputQty.value) + valor;
+    if (nuevaCant >= 1) {
+        inputQty.value = nuevaCant;
+    }
+};
+
+// Escuchador para cerrar el modal de detalle
+document.getElementById('btn-close-detail').addEventListener('click', () => {
+    productDetailModal.classList.add('hidden');
+});
+
+// Cierre inteligente: Cerrar el modal de detalle al hacer clic en el fondo oscuro externo
+productDetailModal.addEventListener('click', (e) => {
+    if (e.target === productDetailModal) {
+        productDetailModal.classList.add('hidden');
+    }
+});
+
+
+// ==========================================================================
+// Control de Modales y Flujo de Checkout
 // ==========================================================================
 document.getElementById('btn-cart').addEventListener('click', () => cartModal.classList.remove('hidden'));
 document.getElementById('btn-close-cart').addEventListener('click', () => cartModal.classList.add('hidden'));
@@ -194,8 +269,10 @@ window.siguientePaso = function(pasoActualNum) {
 }
 
 window.pasoAnterior = function(pasoActualNum) {
-    pasoActual = pasoActualNum - 1;
-    mostrarPaso(pasoActual);
+    if (pasoActualNum > 1) {
+        pasoActual = pasoActualNum - 1;
+        mostrarPaso(pasoActual);
+    }
 }
 
 function actualizarProgreso() {
@@ -210,7 +287,7 @@ function actualizarProgreso() {
 }
 
 // ==========================================================================
-// 5. Motor de Cupones Opcional
+// Motor de Cupones 
 // ==========================================================================
 window.aplicarCupon = function() {
     const couponInput = document.getElementById('coupon-input').value.trim().toUpperCase();
@@ -242,7 +319,7 @@ window.aplicarCupon = function() {
 };
 
 // ==========================================================================
-// 6. Validaciones Estrictas del Formulario
+// Validaciones Estrictas del Formulario
 // ==========================================================================
 function validarPaso(paso) {
     if (paso === 2) {
@@ -286,7 +363,7 @@ if (radioTarjeta && radioCheques && camposTarjeta) {
 }
 
 // ==========================================================================
-// 7. Resumen e Inicialización
+// Resumen e Inicialización
 // ==========================================================================
 function generarResumenFinal() {
     const finalReview = document.getElementById('final-review');

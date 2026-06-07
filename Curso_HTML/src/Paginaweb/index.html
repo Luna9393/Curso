@@ -34,6 +34,47 @@
     </div>
   </div>
 
+  <div id="product-detail-modal" class="modal hidden">
+    <div class="modal-content detail-content">
+      <button id="btn-close-detail" class="close-modal-btn" onclick="document.getElementById('product-detail-modal').classList.add('hidden')">&times;</button>
+      
+      <div class="detail-container">
+        <div class="detail-gallery">
+          <img id="detail-main-img" src="" alt="Vista previa del celular">
+        </div>
+        
+        <div class="detail-info">
+          <h2 id="detail-name">Nombre del Celular</h2>
+          <p class="detail-rating">⭐⭐⭐⭐⭐ (4.8 de 5 - 15 valoraciones globales)</p>
+          <hr style="border: 0; border-top: 1px solid #eee;">
+          
+          <div class="detail-price-box">
+            <span style="font-size: 1rem; color: #555; margin-right: 10px;">Precio Especial:</span>
+            <span id="detail-price" class="detail-price-val" style="font-size: 1.8rem; font-weight: bold; color: #2c3e50;">$0.00</span>
+          </div>
+          
+          <p id="detail-description" class="detail-desc-text" style="font-size: 0.95rem; line-height: 1.5; color: #666;">
+            Cargando especificaciones técnicas del dispositivo...
+          </p>
+          
+          <div class="quantity-selector" style="display: flex; align-items: center; gap: 15px; margin: 10px 0;">
+            <label for="detail-qty" style="font-weight: bold; font-size: 0.95rem;">Cantidad:</label>
+            <div class="qty-controls" style="display: flex; border: 1px solid #ccc; border-radius: 4px; overflow: hidden;">
+              <button type="button" class="btn-qty" onclick="cambiarQtySimulada(-1)" style="background: #f1f1f1; border: none; padding: 5px 12px; font-size: 1.1rem; cursor: pointer;">-</button>
+              <input type="number" id="detail-qty" value="1" min="1" readonly style="width: 45px; text-align: center; border: none; font-size: 1rem; font-weight: bold;">
+              <button type="button" class="btn-qty" onclick="cambiarQtySimulada(1)" style="background: #f1f1f1; border: none; padding: 5px 12px; font-size: 1.1rem; cursor: pointer;">+</button>
+            </div>
+          </div>
+
+          <div class="detail-actions" style="display: flex; gap: 15px; margin-top: 10px;">
+            <button id="btn-detail-add-cart" class="btn-main" style="flex: 1; padding: 12px; font-weight: bold;">Agregar al carrito</button>
+            <button id="btn-detail-buy-now" class="btn-orange" style="flex: 1; padding: 12px; font-weight: bold; background-color: #f0c14b; border: 1px solid #a88734; color: #111; border-radius: 4px; cursor: pointer;">Comprar ahora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="checkout-modal" class="modal hidden">
     <div class="modal-content checkout-content">
       <div class="progress-bar">
@@ -57,7 +98,7 @@
         </div>
 
         <h4 style="margin: 5px 0;">Total inicial: $<span id="checkout-subtotal">0.00</span></h4>
-        <h4 style="color: #dbf0e4; margin: 5px 0;">Descuento: -$<span id="checkout-discount">0.00</span></h4>
+        <h4 style="color: #43a047; margin: 5px 0;">Descuento: -$<span id="checkout-discount">0.00</span></h4>
         <h3 style="margin: 10px 0 20px 0;">Total a pagar: $<span id="checkout-total">0.00</span></h3>
         
         <div class="step-buttons">

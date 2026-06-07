@@ -185,15 +185,17 @@ body {
 .modal {
   position: fixed;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999; /* Asegura que se monte encima de todo */
 }
 
+/* Candado estricto para ocultar */
 .modal.hidden {
-  display: none;
+  display: none !important;
 }
 
 .modal-content {
@@ -203,6 +205,70 @@ body {
   width: 90%;
   max-width: 500px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* AJUSTES PROPIOS PARA EL DETALLE DEL PRODUCTO (DOS COLUMNAS) */
+.detail-content {
+  max-width: 800px; /* Caja más ancha estilo Amazon */
+  max-height: 85vh;
+  overflow-y: auto;  /* Scroll interno si la pantalla es muy chica */
+  padding: 30px;
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Columna Izquierda: Espacio de la foto */
+.detail-gallery {
+  flex: 1;
+  max-width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+/* CANDADO DEFINITIVO: Controla que la imagen no rompa la pantalla */
+#detail-main-img {
+  width: 100%;
+  max-height: 320px; /* No se estirará de más en vertical */
+  object-fit: contain; /* No deforma las proporciones del teléfono */
+  display: block;
+}
+
+/* Columna Derecha: Datos y botones */
+.detail-info {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BOTÓN DE CERRAR (X) */
+.close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 2.2rem;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 5px;
+}
+
+.close-modal-btn:hover {
+  color: #e74c3c; /* Cambia a rojo al pasar el mouse */
+  transform: scale(1.1);
 }
 
 /* CARRITO */
@@ -274,33 +340,43 @@ footer .social-links a:hover {
     max-width: 100%;
     margin-top: 20px;
   }
+  
+  /* Ajuste responsivo para el modal en celulares */
+  .detail-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .detail-gallery {
+    max-width: 100%;
+  }
 }
+
 /* FORMULARIOS ORDENADOS (CHECKOUT) */
 #form-datos, #form-pago {
   display: flex;
-  flex-direction: column; /* Alinea los elementos uno abajo del otro */
-  gap: 12px;              /* Deja un espacio limpio entre cada campo */
-  margin-bottom: 20px;    /* Separa el formulario de los botones de abajo */
-  text-align: left;       /* Asegura que los textos se alineen a la izquierda */
+  flex-direction: column;
+  gap: 12px;              
+  margin-bottom: 20px;    
+  text-align: left;       
 }
 
 #form-datos label, #form-pago label {
   font-weight: 600;
   font-size: 0.95rem;
   color: #444;
-  margin-bottom: -4px;    /* Acerca un poquito la etiqueta a su respectivo input */
+  margin-bottom: -4px;    
 }
 
 #form-datos input, 
 #form-datos textarea, 
 #form-pago input[type="text"] {
-  width: 100%;            /* Hace que ocupen todo el ancho del contenedor */
+  width: 100%;            
   padding: 10px;
   border: 1px solid var(--gris);
   border-radius: 6px;
   font-family: inherit;
   font-size: 1rem;
-  box-sizing: border-box; /* Evita que el padding rompa el ancho del modal */
+  box-sizing: border-box; 
   background-color: #fafafa;
   transition: border-color 0.3s ease;
 }
@@ -308,20 +384,20 @@ footer .social-links a:hover {
 #form-datos input:focus, 
 #form-datos textarea:focus, 
 #form-pago input[type="text"]:focus {
-  border-color: var(--color-secundario); /* Cambia de color al dar clic */
+  border-color: var(--color-secundario); 
   outline: none;
   background-color: white;
 }
 
 #form-datos textarea {
-  resize: vertical;       /* Permite estirar la dirección solo hacia abajo */
+  resize: vertical;       
   min-height: 70px;
 }
 
-/* Arreglo específico para los botones de abajo */
+
 .step-buttons {
   display: flex;
-  justify-content: flex-end; /* Mueve los botones a la derecha */
+  justify-content: flex-end; 
   gap: 10px;
   margin-top: 15px;
 }
@@ -451,6 +527,7 @@ footer .social-links a:hover {
 .brand-logo {
   font-size: 2rem;
 }
+
 @keyframes aparecerModal {
   from {
     opacity: 0;
@@ -463,5 +540,5 @@ footer .social-links a:hover {
 }
 
 .modal-content {
-  animation: aparecerModal 0.4s ease-out; /* Animación obligatoria por rúbrica */
+  animation: aparecerModal 0.4s ease-out; 
 }
